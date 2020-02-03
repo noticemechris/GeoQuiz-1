@@ -1,5 +1,6 @@
 package org.overlake.mat803.geoquiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class QuizActivity extends AppCompatActivity {
     private Question[] mQuestionBank;
     private int mCurrentIndex;
     public static final String TAG = "QuizActivity";
+    public static final String KEY_INDEX = "currentIndex";
 
     public QuizActivity(){
         mQuestionBank = new Question[]{
@@ -33,9 +35,12 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+        }
         setContentView(R.layout.activity_quiz);
         Log.d(TAG, "onCreate() called");
-        mQuestionTextView = findViewById(R.id.question_text_view);
+       // mQuestionTextView = findViewById(R.id.question_text_view);
         updateQuestion();
 
         mTrueButton = findViewById(R.id.true_button);
@@ -113,5 +118,12 @@ public class QuizActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy() called");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState() called()");
+        outState.putInt(KEY_INDEX, mCurrentIndex);
     }
 }
