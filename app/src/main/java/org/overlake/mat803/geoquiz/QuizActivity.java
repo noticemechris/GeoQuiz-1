@@ -69,13 +69,26 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mQuestionTextView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                updateQuestion();
+            }
+        };
+
+        mQuestionTextView.setOnClickListener(listener);
+
+        mNextButton = findViewById(R.id.next_button);
+
+        mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
             }
         });
+
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,27 +103,16 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
-        mBackButton = (Button) findViewById(R.id.back_button);
+        mBackButton = findViewById(R.id.back_button);
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCurrentIndex == 0) {
-                    mCurrentIndex = mQuestionBank.length -1;
-                } else {
-                    mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
-                }
+                mCurrentIndex = (mQuestionBank.length + mCurrentIndex - 1) % mQuestionBank.length;
                 updateQuestion();
             }
         });
 
-        mNextButton = findViewById(R.id.next_button);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                updateQuestion();
-            }
-        });
+
     }
 
     @Override
