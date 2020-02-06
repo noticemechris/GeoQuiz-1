@@ -99,7 +99,8 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    private void updateQuestion(){
+    private void updateQuestion() {
+        mIsCheater = false;
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
     }
