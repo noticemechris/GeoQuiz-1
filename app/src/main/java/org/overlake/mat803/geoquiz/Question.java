@@ -4,10 +4,12 @@ public class Question {
 
     private int mTextResId;
     private boolean mAnswerTrue;
+    private boolean mAlwaysCheater;
 
     public Question(int textResId, boolean answerTrue){
         mTextResId = textResId;
         mAnswerTrue = answerTrue;
+        mAlwaysCheater = false;
     }
 
     public int getTextResId() {
@@ -24,5 +26,13 @@ public class Question {
 
     public void setAnswerTrue(boolean AnswerTrue) {
         mAnswerTrue = AnswerTrue;
+    }
+
+    public void setAlwaysCheater() {
+        mAlwaysCheater = true;
+    }
+
+    public boolean getAlwaysCheater() {
+        return mAlwaysCheater;
     }
 }

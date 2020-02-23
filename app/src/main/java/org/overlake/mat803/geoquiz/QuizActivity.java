@@ -25,7 +25,9 @@ public class QuizActivity extends AppCompatActivity {
     private int mCurrentIndex;
     public static final String TAG = "QuizActivity";
     public static final String KEY_INDEX = "currentIndex";
+    public static final String KEY_IS_CHEATER = "currentCheater";
     private static final int REQUEST_CODE_CHEAT = 0;
+ //   private static final boolean IS_CHEATER = false;
 
     private boolean mIsCheater;
 
@@ -36,6 +38,7 @@ public class QuizActivity extends AppCompatActivity {
                 new Question(R.string.question_mideast, false),
                 new Question(R.string.question_africa, false),
                 new Question(R.string.question_americas, true),
+                new Question(R.string.question_chris, true),
                 new Question(R.string.question_asia, true)
         };
     }
@@ -44,7 +47,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);//left off here
         }
         setContentView(R.layout.activity_quiz);
         Log.d(TAG, "onCreate() called");
@@ -108,8 +111,10 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue){
 
         int messageResId = 0;
-        if(mIsCheater){
+        if (mIsCheater || mQuestionBank[mCurrentIndex].getAlwaysCheater()){
             messageResId = R.string.judgment_toast;
+            //I seriously doubt that this the the most efficient way to do this:
+            mQuestionBank[mCurrentIndex].setAlwaysCheater();
         } else {
 
             boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
@@ -161,5 +166,15 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState() called()");
         outState.putInt(KEY_INDEX, mCurrentIndex);
+        outState.putBoolean(KEY_INDEX, mIsCheater);
     }
+
+    //do we need seperate onsaveinstancestates?
+  /*  @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState() called()");
+        outState.putInt(KEY_INDEX, mIsCheater);
+    }
+*/
 }
