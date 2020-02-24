@@ -25,9 +25,9 @@ public class QuizActivity extends AppCompatActivity {
     private int mCurrentIndex;
     public static final String TAG = "QuizActivity";
     public static final String KEY_INDEX = "currentIndex";
+    //key for the cheating thingamajig
     public static final String KEY_IS_CHEATER = "currentCheater";
     private static final int REQUEST_CODE_CHEAT = 0;
- //   private static final boolean IS_CHEATER = false;
 
     private boolean mIsCheater;
 
@@ -47,7 +47,9 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);//left off here
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            //did saved instance state here
+            mIsCheater = savedInstanceState.getBoolean(KEY_IS_CHEATER, false);//left off here
         }
         setContentView(R.layout.activity_quiz);
         Log.d(TAG, "onCreate() called");
@@ -166,7 +168,8 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState() called()");
         outState.putInt(KEY_INDEX, mCurrentIndex);
-        outState.putBoolean(KEY_INDEX, mIsCheater);
+        //tried to do the dame thing as above except with the key
+        outState.putBoolean(KEY_IS_CHEATER, mIsCheater);
     }
 
     //do we need seperate onsaveinstancestates?
