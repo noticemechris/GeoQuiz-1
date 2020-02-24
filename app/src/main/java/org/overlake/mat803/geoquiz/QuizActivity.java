@@ -13,6 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 public class QuizActivity extends AppCompatActivity {
 
     private Button mTrueButton;
@@ -28,9 +33,10 @@ public class QuizActivity extends AppCompatActivity {
     //key for the cheating thingamajig
     public static final String KEY_IS_CHEATER = "currentCheater";
     private static final int REQUEST_CODE_CHEAT = 0;
-
+    private Set<Integer> cheatedIndex;
     private boolean mIsCheater;
 
+//figure out how to make a set
     public QuizActivity(){
         mQuestionBank = new Question[]{
                 new Question(R.string.question_australia, true),
@@ -41,6 +47,8 @@ public class QuizActivity extends AppCompatActivity {
                 new Question(R.string.question_chris, true),
                 new Question(R.string.question_asia, true)
         };
+
+        cheatedIndex = new HashSet<>();
     }
 
     @Override
@@ -100,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CHEAT && data != null){
-            mIsCheater = CheatActivity.wasAnswerShown(data);
+            cheatedIndex.add(mCurrentIndex);
         }
     }
 
@@ -113,11 +121,10 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue){
 
         int messageResId = 0;
-        if (mIsCheater || mQuestionBank[mCurrentIndex].getAlwaysCheater()){
+        if (cheatedIndex.contains(mCurrentIndex)){
             messageResId = R.string.judgment_toast;
             //I seriously doubt that this the the most efficient way to do this:
-            mQuestionBank[mCurrentIndex].setAlwaysCheater();
-        } else {
+            } else {
 
             boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
 
