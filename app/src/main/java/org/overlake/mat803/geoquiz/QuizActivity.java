@@ -8,12 +8,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.view.Gravity.CENTER_VERTICAL;
+
 public class QuizActivity extends AppCompatActivity {
+
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -90,6 +96,7 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
+
     }
 
     @Override
@@ -123,7 +130,9 @@ public class QuizActivity extends AppCompatActivity {
 
         }
 
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+        Toast t = Toast.makeText(this, messageResId, Toast.LENGTH_SHORT);
+        t.setGravity(Gravity.TOP, CENTER_HORIZONTAL, CENTER_VERTICAL);
+        t.show();
 
     }
 
